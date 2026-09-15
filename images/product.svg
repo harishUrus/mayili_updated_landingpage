@@ -1,0 +1,41 @@
+<svg width="420" height="520" viewBox="0 0 420 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mayili Ragi Choco Milkshake pouch">
+  <defs>
+    <linearGradient id="pouchGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8a5a34"/>
+      <stop offset="100%" stop-color="#5c3417"/>
+    </linearGradient>
+    <linearGradient id="pouchShine" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.18"/>
+      <stop offset="50%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <path d="M70 60 Q60 40 90 30 L330 30 Q360 40 350 60 L370 460 Q372 490 340 495 L80 495 Q48 490 50 460 Z" fill="url(#pouchGrad)" stroke="#3a1f0e" stroke-width="3"/>
+  <path d="M70 60 Q60 40 90 30 L330 30 Q360 40 350 60 L370 460 Q372 490 340 495 L80 495 Q48 490 50 460 Z" fill="url(#pouchShine)"/>
+  <rect x="60" y="48" width="300" height="26" rx="8" fill="#3a1f0e"/>
+  <g transform="translate(150,70)">
+    <path d="M14 24c0-8 6-14 14-14 0 8-6 14-14 14z" fill="#9fb371"/>
+    <path d="M14 24c0-8-6-14-14-14 0 8 6 14 14 14z" fill="#c3d19a"/>
+    <circle cx="14" cy="24" r="3" fill="#e0a95c"/>
+    <text x="34" y="20" font-family="Inter, sans-serif" font-weight="800" font-size="16" fill="#fff">Mayili</text>
+  </g>
+  <rect x="90" y="120" width="240" height="4" fill="#c88943" opacity="0.6"/>
+  <text x="210" y="185" font-family="Inter, sans-serif" font-weight="800" font-size="30" fill="#fff" text-anchor="middle">RAGI CHOCO</text>
+  <text x="210" y="222" font-family="Inter, sans-serif" font-weight="800" font-size="30" fill="#e0a95c" text-anchor="middle">MILKSHAKE</text>
+  <text x="210" y="252" font-family="Inter, sans-serif" font-weight="500" font-size="13" letter-spacing="2" fill="#e8d9c5" text-anchor="middle">RICH NUTRITION, REAL GOODNESS</text>
+
+  <g transform="translate(150,280)" opacity="0.95">
+    <circle cx="0" cy="0" r="26" fill="#3a2213"/>
+    <circle cx="8" cy="-6" r="4" fill="#8a5a34"/>
+    <circle cx="-6" cy="8" r="5" fill="#8a5a34"/>
+    <circle cx="-10" cy="-8" r="3" fill="#8a5a34"/>
+  </g>
+  <g transform="translate(210,300)" opacity="0.95">
+    <ellipse cx="0" cy="0" rx="16" ry="10" fill="#e8dcc5" transform="rotate(-20)"/>
+  </g>
+  <g transform="translate(270,280)" opacity="0.95">
+    <path d="M-14 8 C -14 -10 14 -10 14 8 C 14 16 -14 16 -14 8 Z" fill="#d8b98a"/>
+  </g>
+
+  <rect x="60" y="440" width="300" height="1" fill="#e8d9c5" opacity="0.3"/>
+  <text x="210" y="470" font-family="Inter, sans-serif" font-weight="600" font-size="14" fill="#e8d9c5" text-anchor="middle">NET WEIGHT 100g</text>
+</svg>
