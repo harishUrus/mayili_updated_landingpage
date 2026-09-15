@@ -71,7 +71,25 @@ export default function Footer() {
         </div>
       </div>
 
-      <p className="text-center text-white/50 text-xs font-sans mt-10">{t.footer.copyright}</p>
+      <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-10 px-4 text-xs font-sans">
+        <a href="/privacy-policy" className="text-white/60 hover:text-white focus-ring rounded">
+          Privacy Policy
+        </a>
+        <a href="/terms-and-conditions" className="text-white/60 hover:text-white focus-ring rounded">
+          Terms &amp; Conditions
+        </a>
+        <a href="/refund-policy" className="text-white/60 hover:text-white focus-ring rounded">
+          Refund Policy
+        </a>
+        <a href="/shipping-policy" className="text-white/60 hover:text-white focus-ring rounded">
+          Shipping Policy
+        </a>
+        <a href="/contact-us" className="text-white/60 hover:text-white focus-ring rounded">
+          Contact Us
+        </a>
+      </div>
+
+      <p className="text-center text-white/50 text-xs font-sans mt-4">{t.footer.copyright}</p>
     </footer>
   );
 }
