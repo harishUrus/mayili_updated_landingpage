@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { X, Trash2, Loader2, CheckCircle2 } from "lucide-react";
+import { X, Trash2, Loader2 } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import { PRODUCT_CONFIG, productPackages } from "../data/product";
 import { buildOrderMessage, buildWhatsAppUrl } from "../utils/whatsapp";
@@ -7,14 +7,13 @@ import { createRazorpayOrder, openRazorpayCheckout, verifyRazorpayPayment } from
 import { useLanguage } from "../context/LanguageContext";
 import { translations } from "../data/translations";
 
-type PaymentState = "idle" | "processing" | "success" | "failed";
+type PaymentState = "idle" | "processing" | "failed";
 
 export default function CartDrawer() {
   const { items, isOpen, closeCart, removeFromCart, subtotal, shipping, total } = useCart();
   const { language } = useLanguage();
   const t = translations[language].cart;
   const [paymentState, setPaymentState] = useState<PaymentState>("idle");
-  const [paymentId, setPaymentId] = useState<string | null>(null);
 
   const handleWhatsAppOrder = () => {
     const url = buildWhatsAppUrl(buildOrderMessage(items, subtotal, shipping, total, language));
@@ -31,8 +30,13 @@ export default function CartDrawer() {
         onSuccess: async (response) => {
           const verified = await verifyRazorpayPayment(response);
           if (verified) {
-            setPaymentId(response.razorpay_payment_id);
-            setPaymentState("success");
+            const params = new URLSearchParams({
+              order_id: response.razorpay_order_id,
+              payment_id: response.razorpay_payment_id,
+              amount: String(total),
+              currency: "INR",
+            });
+            window.location.href = `/thank-you?${params.toString()}`;
           } else {
             setPaymentState("failed");
           }
@@ -42,11 +46,6 @@ export default function CartDrawer() {
     } catch {
       setPaymentState("failed");
     }
-  };
-
-  const handleWhatsAppConfirmAfterPayment = () => {
-    const message = `${buildOrderMessage(items, subtotal, shipping, total, language)}\n\nPayment ID: ${paymentId}`;
-    window.open(buildWhatsAppUrl(message), "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -141,51 +140,35 @@ export default function CartDrawer() {
               </span>
             </div>
 
-            {paymentState === "success" ? (
-              <div className="pt-2 space-y-3">
-                <div className="flex items-center gap-2 text-green-700 bg-green-50 rounded-xl px-3 py-2.5">
-                  <CheckCircle2 className="w-5 h-5 shrink-0" />
-                  <p className="text-sm font-sans font-semibold">{t.paymentSuccess}</p>
-                </div>
-                <button
-                  type="button"
-                  onClick={handleWhatsAppConfirmAfterPayment}
-                  className="w-full py-3 rounded-full bg-[#25D366] text-white font-sans font-bold hover:scale-[1.02] active:scale-95 transition-transform shadow-md focus-ring"
-                >
-                  {t.confirmOnWhatsApp}
-                </button>
-              </div>
-            ) : (
-              <div className="pt-2 space-y-2.5">
-                {paymentState === "failed" && (
-                  <p className="text-sm font-sans font-semibold text-red-600 text-center">{t.paymentFailed}</p>
-                )}
-                <button
-                  type="button"
-                  onClick={handlePayNow}
-                  disabled={paymentState === "processing"}
-                  className="w-full py-3 rounded-full bg-[var(--color-accent)] text-white font-sans font-bold hover:scale-[1.02] active:scale-95 transition-transform shadow-md focus-ring disabled:opacity-70 flex items-center justify-center gap-2"
-                >
-                  {paymentState === "processing" && <Loader2 className="w-4 h-4 animate-spin" />}
-                  {paymentState === "processing" ? t.processingPayment : t.payNow}
-                </button>
+            <div className="pt-2 space-y-2.5">
+              {paymentState === "failed" && (
+                <p className="text-sm font-sans font-semibold text-red-600 text-center">{t.paymentFailed}</p>
+              )}
+              <button
+                type="button"
+                onClick={handlePayNow}
+                disabled={paymentState === "processing"}
+                className="w-full py-3 rounded-full bg-[var(--color-accent)] text-white font-sans font-bold hover:scale-[1.02] active:scale-95 transition-transform shadow-md focus-ring disabled:opacity-70 flex items-center justify-center gap-2"
+              >
+                {paymentState === "processing" && <Loader2 className="w-4 h-4 animate-spin" />}
+                {paymentState === "processing" ? t.processingPayment : t.payNow}
+              </button>
 
-                <div className="flex items-center gap-2 text-xs text-[var(--color-choc)]/50 font-sans">
-                  <div className="flex-1 h-px bg-[var(--color-bg)]" />
-                  {t.orDivider}
-                  <div className="flex-1 h-px bg-[var(--color-bg)]" />
-                </div>
-
-                <button
-                  type="button"
-                  onClick={handleWhatsAppOrder}
-                  disabled={paymentState === "processing"}
-                  className="w-full py-3 rounded-full bg-[#25D366] text-white font-sans font-bold hover:scale-[1.02] active:scale-95 transition-transform shadow-md focus-ring disabled:opacity-50"
-                >
-                  {t.proceed}
-                </button>
+              <div className="flex items-center gap-2 text-xs text-[var(--color-choc)]/50 font-sans">
+                <div className="flex-1 h-px bg-[var(--color-bg)]" />
+                {t.orDivider}
+                <div className="flex-1 h-px bg-[var(--color-bg)]" />
               </div>
-            )}
+
+              <button
+                type="button"
+                onClick={handleWhatsAppOrder}
+                disabled={paymentState === "processing"}
+                className="w-full py-3 rounded-full bg-[#25D366] text-white font-sans font-bold hover:scale-[1.02] active:scale-95 transition-transform shadow-md focus-ring disabled:opacity-50"
+              >
+                {t.proceed}
+              </button>
+            </div>
           </div>
         )}
       </aside>

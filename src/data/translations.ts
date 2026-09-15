@@ -107,9 +107,7 @@ export const translations = {
       proceed: "Proceed to Order",
       payNow: "இப்போது பணம் செலுத்துங்கள்",
       processingPayment: "செயலாக்கப்படுகிறது...",
-      paymentSuccess: "பணம் செலுத்துதல் வெற்றி! உங்கள் ஆர்டர் உறுதி செய்யப்பட்டது.",
       paymentFailed: "பணம் செலுத்துதல் தோல்வியடைந்தது. மீண்டும் முயற்சிக்கவும்.",
-      confirmOnWhatsApp: "WhatsApp-ல் உறுதிப்படுத்தவும்",
       orDivider: "அல்லது",
     },
     whatsapp: {
@@ -122,6 +120,15 @@ export const translations = {
       contactHeading: "தொடர்பு கொள்ள",
       whatsapp: "WhatsApp",
       copyright: "© 2026 Mayili. All rights reserved.",
+    },
+    thankYou: {
+      heading: "நன்றி! உங்கள் ஆர்டர் உறுதி செய்யப்பட்டது",
+      subheading: "உங்கள் பணம் செலுத்துதல் வெற்றிகரமாக முடிந்தது.",
+      orderIdLabel: "ஆர்டர் ஐடி",
+      paymentIdLabel: "பணம் செலுத்திய ஐடி",
+      amountLabel: "செலுத்தப்பட்ட தொகை",
+      confirmOnWhatsApp: "WhatsApp-ல் உறுதிப்படுத்தவும்",
+      backHome: "முகப்புக்கு திரும்பு",
     },
   },
   en: {
@@ -232,9 +239,7 @@ export const translations = {
       proceed: "Proceed to Order",
       payNow: "Pay Now",
       processingPayment: "Processing...",
-      paymentSuccess: "Payment successful! Your order is confirmed.",
       paymentFailed: "Payment failed. Please try again.",
-      confirmOnWhatsApp: "Confirm on WhatsApp",
       orDivider: "or",
     },
     whatsapp: {
@@ -247,6 +252,15 @@ export const translations = {
       contactHeading: "Contact Us",
       whatsapp: "WhatsApp",
       copyright: "© 2026 Mayili. All rights reserved.",
+    },
+    thankYou: {
+      heading: "Thank You! Your Order is Confirmed",
+      subheading: "Your payment was completed successfully.",
+      orderIdLabel: "Order ID",
+      paymentIdLabel: "Payment ID",
+      amountLabel: "Amount Paid",
+      confirmOnWhatsApp: "Confirm on WhatsApp",
+      backHome: "Back to Home",
     },
   },
 } as const;
