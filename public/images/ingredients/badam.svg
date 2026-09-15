@@ -1,0 +1,7 @@
+<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Almonds">
+  <circle cx="60" cy="60" r="58" fill="#F3E8D8"/>
+  <g fill="#C9A876" stroke="#A9835A" stroke-width="1.5">
+    <path d="M50 35 C35 45 35 75 50 90 C60 98 66 90 62 75 C58 60 65 45 55 35 C53 33 52 33 50 35 Z"/>
+    <path d="M75 45 C62 53 62 78 75 92 C84 99 89 92 86 79 C83 66 89 53 81 45 C79 43 77 43 75 45 Z"/>
+  </g>
+</svg>
