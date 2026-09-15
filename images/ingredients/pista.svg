@@ -1,0 +1,8 @@
+<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pistachios">
+  <circle cx="60" cy="60" r="58" fill="#F0EEDD"/>
+  <g stroke="#8a9c5e" stroke-width="1.5">
+    <path d="M48 32 C34 42 34 78 48 92 C58 100 66 92 62 76 C58 60 66 42 56 32 C53 29 51 29 48 32 Z" fill="#B9C98F"/>
+    <path d="M56 32 C56 32 62 50 58 65 C55 76 60 88 62 92" fill="none"/>
+    <path d="M74 44 C60 54 60 78 74 92 C82 99 88 92 85 79 C82 66 88 54 80 44 C78 42 76 42 74 44 Z" fill="#D8CBA8"/>
+  </g>
+</svg>

@@ -1,0 +1,27 @@
+<svg width="360" height="520" viewBox="0 0 360 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Chocolate ragi milkshake in a glass">
+  <defs>
+    <linearGradient id="glassGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5a2e14"/>
+      <stop offset="100%" stop-color="#2e1608"/>
+    </linearGradient>
+    <linearGradient id="glassShine" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.25"/>
+      <stop offset="30%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <path d="M100 140 L120 470 Q122 490 145 490 L215 490 Q238 490 240 470 L260 140 Z" fill="#efe6d8" stroke="#cbb99a" stroke-width="2"/>
+  <path d="M108 150 L126 462 Q128 478 148 478 L212 478 Q232 478 234 462 L252 150 Z" fill="url(#glassGrad)"/>
+  <path d="M108 150 L126 462 Q128 478 148 478 L212 478 Q232 478 234 462 L252 150 Z" fill="url(#glassShine)"/>
+  <ellipse cx="180" cy="140" rx="80" ry="16" fill="#7a4322"/>
+  <ellipse cx="180" cy="136" rx="80" ry="16" fill="#8a5228"/>
+  <g opacity="0.9">
+    <path d="M150 128 C160 108 200 108 210 128" stroke="#5c3417" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <path d="M165 118 C172 100 195 100 202 116" stroke="#7a4322" stroke-width="5" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(240,90)">
+    <path d="M0 60 C -20 30 20 10 0 -20 C 30 0 10 30 30 60 Z" fill="#4a1f0f"/>
+  </g>
+  <circle cx="120" cy="100" r="10" fill="#3a2213"/>
+  <circle cx="255" cy="115" r="8" fill="#8a5a34"/>
+  <rect x="176" y="30" width="8" height="115" rx="4" fill="#e0a95c" transform="rotate(8 180 90)"/>
+</svg>

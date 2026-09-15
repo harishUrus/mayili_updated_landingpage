@@ -1,0 +1,7 @@
+<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cocoa beans">
+  <circle cx="60" cy="60" r="58" fill="#E9DCCB"/>
+  <g fill="#4A2A16" stroke="#321707" stroke-width="1">
+    <path d="M45 30 C30 45 30 75 45 92 C55 100 63 90 58 72 C53 55 60 42 50 30 C48 28 47 28 45 30 Z"/>
+    <path d="M72 38 C58 50 58 76 72 92 C81 100 88 91 84 76 C80 61 87 50 78 38 C76 36 74 36 72 38 Z"/>
+  </g>
+</svg>

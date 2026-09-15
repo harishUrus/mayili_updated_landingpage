@@ -1,0 +1,8 @@
+<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Country sugar jaggery">
+  <circle cx="60" cy="60" r="58" fill="#F1E4CE"/>
+  <g fill="#B97A2E" stroke="#8F5B1E" stroke-width="1.5">
+    <rect x="35" y="45" width="22" height="22" rx="4" transform="rotate(8 46 56)"/>
+    <rect x="60" y="38" width="20" height="20" rx="4" transform="rotate(-12 70 48)"/>
+    <rect x="50" y="68" width="24" height="24" rx="4" transform="rotate(5 62 80)"/>
+  </g>
+</svg>
