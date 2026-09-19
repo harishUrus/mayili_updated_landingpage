@@ -14,6 +14,7 @@ interface CartContextValue {
   closeCart: () => void;
   addToCart: (pkg: ProductPackage, quantity: number) => void;
   removeFromCart: (packageId: string) => void;
+  clearCart: () => void;
   itemCount: number;
   subtotal: number;
   shipping: number;
@@ -43,6 +44,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setItems((prev) => prev.filter((i) => i.packageId !== packageId));
   };
 
+  const clearCart = () => {
+    setItems([]);
+  };
+
   const itemCount = useMemo(() => items.reduce((sum, i) => sum + i.quantity, 0), [items]);
   const subtotal = useMemo(() => items.reduce((sum, i) => sum + i.price * i.quantity, 0), [items]);
   const shipping = items.length > 0 ? PRODUCT_CONFIG.shipping : 0;
@@ -55,6 +60,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     closeCart: () => setIsOpen(false),
     addToCart,
     removeFromCart,
+    clearCart,
     itemCount,
     subtotal,
     shipping,

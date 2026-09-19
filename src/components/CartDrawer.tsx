@@ -4,13 +4,14 @@ import { useCart } from "../context/CartContext";
 import { PRODUCT_CONFIG, productPackages } from "../data/product";
 import { buildOrderMessage, buildWhatsAppUrl } from "../utils/whatsapp";
 import { createRazorpayOrder, openRazorpayCheckout, verifyRazorpayPayment } from "../utils/razorpay";
+import { saveCompletedOrder } from "../utils/order";
 import { useLanguage } from "../context/LanguageContext";
 import { translations } from "../data/translations";
 
 type PaymentState = "idle" | "processing" | "failed";
 
 export default function CartDrawer() {
-  const { items, isOpen, closeCart, removeFromCart, subtotal, shipping, total } = useCart();
+  const { items, isOpen, closeCart, removeFromCart, clearCart, subtotal, shipping, total } = useCart();
   const { language } = useLanguage();
   const t = translations[language].cart;
   const [paymentState, setPaymentState] = useState<PaymentState>("idle");
@@ -30,13 +31,26 @@ export default function CartDrawer() {
         onSuccess: async (response) => {
           const verified = await verifyRazorpayPayment(response);
           if (verified) {
-            const params = new URLSearchParams({
-              order_id: response.razorpay_order_id,
-              payment_id: response.razorpay_payment_id,
-              amount: String(total),
-              currency: "INR",
+            saveCompletedOrder({
+              items: items.map((item) => {
+                const pkg = productPackages.find((p) => p.id === item.packageId);
+                return {
+                  packageId: item.packageId,
+                  label: pkg ? pkg.label : { ta: item.packageId, en: item.packageId },
+                  price: item.price,
+                  quantity: item.quantity,
+                };
+              }),
+              subtotal,
+              shipping,
+              total,
+              paymentId: response.razorpay_payment_id,
+              orderId: response.razorpay_order_id,
+              status: "paid",
+              timestamp: new Date().toISOString(),
             });
-            window.location.href = `/thank-you?${params.toString()}`;
+            clearCart();
+            window.location.href = "/thank-you";
           } else {
             setPaymentState("failed");
           }
