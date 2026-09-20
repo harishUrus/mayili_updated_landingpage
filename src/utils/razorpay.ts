@@ -1,4 +1,5 @@
 import type { CartItem } from "../context/CartContext";
+import type { CustomerDetails } from "./customer";
 
 interface RazorpayCheckoutOptions {
   key: string;
@@ -36,12 +37,16 @@ interface CreateOrderResponse {
   keyId: string;
 }
 
-export async function createRazorpayOrder(items: CartItem[]): Promise<CreateOrderResponse> {
+export async function createRazorpayOrder(
+  items: CartItem[],
+  customer: CustomerDetails
+): Promise<CreateOrderResponse> {
   const res = await fetch("/.netlify/functions/create-razorpay-order", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       items: items.map((i) => ({ packageId: i.packageId, quantity: i.quantity })),
+      customer,
     }),
   });
 
@@ -68,6 +73,7 @@ export async function verifyRazorpayPayment(response: RazorpaySuccessResponse): 
 export function openRazorpayCheckout(params: {
   order: CreateOrderResponse;
   productName: string;
+  customer: CustomerDetails;
   onSuccess: (response: RazorpaySuccessResponse) => void;
   onDismiss?: () => void;
 }): void {
@@ -83,6 +89,11 @@ export function openRazorpayCheckout(params: {
     description: params.productName,
     order_id: params.order.orderId,
     handler: params.onSuccess,
+    prefill: {
+      name: params.customer.name,
+      contact: params.customer.phone,
+      email: params.customer.email,
+    },
     theme: { color: "#6B3017" },
     modal: { ondismiss: params.onDismiss },
   });

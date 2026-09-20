@@ -49,6 +49,18 @@ export const handler = async (event) => {
     subtotalRupees += price * quantity;
   }
 
+  const clean = (value, max) => String(value ?? "").replace(/[\r\n\t]+/g, " ").trim().slice(0, max);
+  const customer = payload.customer ?? {};
+  const notes = {
+    customer_name: clean(customer.name, 100),
+    customer_phone: clean(customer.phone, 15),
+    customer_email: clean(customer.email, 100),
+    customer_address: clean(customer.address, 200),
+    customer_city: clean(customer.city, 60),
+    customer_pincode: clean(customer.pincode, 10),
+    items: items.map((i) => `${i.packageId} x ${Number(i.quantity)}`).join(", ").slice(0, 250),
+  };
+
   const totalRupees = subtotalRupees + SHIPPING_RUPEES;
   const amountPaise = totalRupees * 100;
 
@@ -59,6 +71,7 @@ export const handler = async (event) => {
       amount: amountPaise,
       currency: "INR",
       receipt: `mayili_${Date.now()}`,
+      notes,
     });
 
     return {

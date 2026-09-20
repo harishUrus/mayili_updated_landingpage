@@ -1,4 +1,5 @@
 import type { Language } from "../context/LanguageContext";
+import type { CustomerDetails } from "./customer";
 
 export interface CompletedOrderItem {
   packageId: string;
@@ -9,6 +10,7 @@ export interface CompletedOrderItem {
 
 export interface CompletedOrder {
   items: CompletedOrderItem[];
+  customer: CustomerDetails;
   subtotal: number;
   shipping: number;
   total: number;
@@ -42,7 +44,9 @@ export function readCompletedOrder(): CompletedOrder | null {
       !parsed.orderId ||
       !Array.isArray(parsed.items) ||
       parsed.items.length === 0 ||
-      typeof parsed.total !== "number"
+      typeof parsed.total !== "number" ||
+      !parsed.customer ||
+      typeof parsed.customer.name !== "string"
     ) {
       return null;
     }
@@ -53,6 +57,7 @@ export function readCompletedOrder(): CompletedOrder | null {
 }
 
 export function formatOrderForWhatsApp(order: CompletedOrder, currency: string, language: Language): string {
+  const c = order.customer;
   const lines = [
     "Hello Mayili,",
     "",
@@ -64,6 +69,10 @@ export function formatOrderForWhatsApp(order: CompletedOrder, currency: string, 
     "",
     `Amount Paid: ${currency}${order.total}`,
     `Razorpay Payment ID: ${order.paymentId}`,
+    "",
+    `Name: ${c.name}`,
+    `Phone: ${c.phone}`,
+    `Address: ${c.address}, ${c.city} - ${c.pincode}`,
     "",
     "Please confirm my order.",
   ];

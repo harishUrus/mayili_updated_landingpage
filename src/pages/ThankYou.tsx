@@ -105,6 +105,11 @@ export default function ThankYou() {
         <h1 className="font-sans font-extrabold text-2xl text-[var(--color-dark-choc)] mb-2">
           {t.heading}
         </h1>
+        {order.customer.name && (
+          <p className="font-sans font-semibold text-[var(--color-accent)] mb-1">
+            {t.thankYouName(order.customer.name)}
+          </p>
+        )}
         <p className="text-[var(--color-choc)]/80 font-sans mb-1">{t.subheading}</p>
         <p className="text-[var(--color-choc)]/60 font-sans text-sm mb-6">{t.detailsBelow}</p>
 
@@ -149,6 +154,36 @@ export default function ThankYou() {
                 {order.total}
               </span>
             </div>
+          </div>
+        </div>
+
+        <div className="bg-[var(--color-bg)] rounded-2xl p-4 text-left mb-4 font-sans text-sm space-y-1.5">
+          <p className="text-xs font-bold tracking-wide text-[var(--color-choc)]/60 uppercase mb-2">
+            {t.customerDetails}
+          </p>
+          <div className="flex justify-between">
+            <span className="text-[var(--color-choc)]/70">{t.customerName}</span>
+            <span className="font-semibold text-[var(--color-dark-choc)] text-right ml-3">
+              {order.customer.name}
+            </span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-[var(--color-choc)]/70">{t.customerPhone}</span>
+            <span className="font-semibold text-[var(--color-dark-choc)] text-right ml-3">
+              {order.customer.phone}
+            </span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-[var(--color-choc)]/70">{t.customerEmail}</span>
+            <span className="font-semibold text-[var(--color-dark-choc)] break-all text-right ml-3">
+              {order.customer.email}
+            </span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-[var(--color-choc)]/70">{t.customerAddress}</span>
+            <span className="font-semibold text-[var(--color-dark-choc)] text-right ml-3">
+              {order.customer.address}, {order.customer.city} - {order.customer.pincode}
+            </span>
           </div>
         </div>
 

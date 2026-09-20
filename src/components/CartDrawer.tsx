@@ -5,6 +5,13 @@ import { PRODUCT_CONFIG, productPackages } from "../data/product";
 import { buildOrderMessage, buildWhatsAppUrl } from "../utils/whatsapp";
 import { createRazorpayOrder, openRazorpayCheckout, verifyRazorpayPayment } from "../utils/razorpay";
 import { saveCompletedOrder } from "../utils/order";
+import {
+  EMPTY_CUSTOMER,
+  normalizeCustomer,
+  validateCustomer,
+  type CustomerDetails,
+  type CustomerErrors,
+} from "../utils/customer";
 import { useLanguage } from "../context/LanguageContext";
 import { translations } from "../data/translations";
 
@@ -15,6 +22,13 @@ export default function CartDrawer() {
   const { language } = useLanguage();
   const t = translations[language].cart;
   const [paymentState, setPaymentState] = useState<PaymentState>("idle");
+  const [customer, setCustomer] = useState<CustomerDetails>(EMPTY_CUSTOMER);
+  const [errors, setErrors] = useState<CustomerErrors>({});
+
+  const updateField = (field: keyof CustomerDetails, value: string) => {
+    setCustomer((prev) => ({ ...prev, [field]: value }));
+    setErrors((prev) => ({ ...prev, [field]: undefined }));
+  };
 
   const handleWhatsAppOrder = () => {
     const url = buildWhatsAppUrl(buildOrderMessage(items, subtotal, shipping, total, language));
@@ -22,11 +36,23 @@ export default function CartDrawer() {
   };
 
   const handlePayNow = async () => {
+    const found = validateCustomer(customer);
+    if (Object.keys(found).length > 0) {
+      setErrors(found);
+      const firstInvalid = (["name", "phone", "email", "address", "city", "pincode"] as const).find(
+        (f) => found[f]
+      );
+      if (firstInvalid) document.getElementById(`customer-${firstInvalid}`)?.focus();
+      return;
+    }
+
+    const cleanCustomer = normalizeCustomer(customer);
     setPaymentState("processing");
     try {
-      const order = await createRazorpayOrder(items);
+      const order = await createRazorpayOrder(items, cleanCustomer);
       openRazorpayCheckout({
         order,
+        customer: cleanCustomer,
         productName: PRODUCT_CONFIG.productName[language],
         onSuccess: async (response) => {
           const verified = await verifyRazorpayPayment(response);
@@ -41,6 +67,7 @@ export default function CartDrawer() {
                   quantity: item.quantity,
                 };
               }),
+              customer: cleanCustomer,
               subtotal,
               shipping,
               total,
@@ -127,6 +154,95 @@ export default function CartDrawer() {
                 );
               })}
             </ul>
+          )}
+
+          {items.length > 0 && (
+            <section className="mt-6" aria-label={t.form.heading}>
+              <h3 className="font-sans font-bold text-[var(--color-dark-choc)] mb-3">{t.form.heading}</h3>
+              <div className="space-y-3">
+                {(
+                  [
+                    { field: "name", type: "text", autoComplete: "name", inputMode: undefined },
+                    { field: "phone", type: "tel", autoComplete: "tel-national", inputMode: "numeric" },
+                    { field: "email", type: "email", autoComplete: "email", inputMode: "email" },
+                  ] as const
+                ).map(({ field, type, autoComplete, inputMode }) => (
+                  <div key={field}>
+                    <label
+                      htmlFor={`customer-${field}`}
+                      className="block text-xs font-sans font-semibold text-[var(--color-choc)] mb-1"
+                    >
+                      {t.form[field]}
+                    </label>
+                    <input
+                      id={`customer-${field}`}
+                      type={type}
+                      autoComplete={autoComplete}
+                      inputMode={inputMode}
+                      value={customer[field]}
+                      onChange={(e) => updateField(field, e.target.value)}
+                      aria-invalid={Boolean(errors[field])}
+                      className="w-full rounded-xl border border-[var(--color-beige)] bg-white px-3 py-2.5 text-sm font-sans text-[var(--color-dark-choc)] focus-ring aria-[invalid=true]:border-red-500"
+                    />
+                    {errors[field] && (
+                      <p className="text-xs text-red-600 font-sans mt-1">{t.form.errors[errors[field]!]}</p>
+                    )}
+                  </div>
+                ))}
+
+                <div>
+                  <label
+                    htmlFor="customer-address"
+                    className="block text-xs font-sans font-semibold text-[var(--color-choc)] mb-1"
+                  >
+                    {t.form.address}
+                  </label>
+                  <textarea
+                    id="customer-address"
+                    rows={2}
+                    autoComplete="street-address"
+                    value={customer.address}
+                    onChange={(e) => updateField("address", e.target.value)}
+                    aria-invalid={Boolean(errors.address)}
+                    className="w-full rounded-xl border border-[var(--color-beige)] bg-white px-3 py-2.5 text-sm font-sans text-[var(--color-dark-choc)] focus-ring aria-[invalid=true]:border-red-500 resize-none"
+                  />
+                  {errors.address && (
+                    <p className="text-xs text-red-600 font-sans mt-1">{t.form.errors[errors.address]}</p>
+                  )}
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  {(
+                    [
+                      { field: "city", autoComplete: "address-level2", inputMode: undefined },
+                      { field: "pincode", autoComplete: "postal-code", inputMode: "numeric" },
+                    ] as const
+                  ).map(({ field, autoComplete, inputMode }) => (
+                    <div key={field}>
+                      <label
+                        htmlFor={`customer-${field}`}
+                        className="block text-xs font-sans font-semibold text-[var(--color-choc)] mb-1"
+                      >
+                        {t.form[field]}
+                      </label>
+                      <input
+                        id={`customer-${field}`}
+                        type="text"
+                        autoComplete={autoComplete}
+                        inputMode={inputMode}
+                        value={customer[field]}
+                        onChange={(e) => updateField(field, e.target.value)}
+                        aria-invalid={Boolean(errors[field])}
+                        className="w-full rounded-xl border border-[var(--color-beige)] bg-white px-3 py-2.5 text-sm font-sans text-[var(--color-dark-choc)] focus-ring aria-[invalid=true]:border-red-500"
+                      />
+                      {errors[field] && (
+                        <p className="text-xs text-red-600 font-sans mt-1">{t.form.errors[errors[field]!]}</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
           )}
         </div>
 
